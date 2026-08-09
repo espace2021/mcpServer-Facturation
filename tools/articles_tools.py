@@ -6,7 +6,7 @@ Définit les tools MCP pour les articles.
 
 from fastmcp import FastMCP
 
-from api.myApi import api_get, _extraire_erreur
+from api.myApi import api_get, api_post, _extraire_erreur
 
 mcp = FastMCP("Facturation")
 
@@ -162,7 +162,7 @@ def search_articles(query: str) -> dict:
         }
 
 # =========================================================
-# TOOL : ARTICLES EN RUPTURE DE STOCK
+# TOOL 4 : ARTICLES EN RUPTURE DE STOCK
 # =========================================================
 
 @mcp.tool(
@@ -191,7 +191,46 @@ def get_article_rupture_stock() -> dict:
             "message": "API error",
             "error": _extraire_erreur(err),
         }
-    
+
+# =========================================================
+# TOOL 5 : Créer un nouvel article
+# =========================================================
+
+@mcp.tool(
+    name="createArticle",
+    description="Crée un nouvel article (désignation, prix d'achat, prix de vente, catégorie, stock)."
+)
+def create_article(
+    designation: str,
+    prix_achat: float,
+    prix_vente: float,
+    categorie: str | None = None,
+    stock: int = 0,
+) -> dict:
+
+    try:
+        body = {
+            "designation": designation,
+            "prix_achat": prix_achat,
+            "prix_vente": prix_vente,
+            "categorie": categorie,
+            "stock": stock,
+        }
+
+        article = api_post("/articles/", body)
+
+        return {
+            "ok": True,
+            "data": article,
+        }
+
+    except Exception as err:
+        return {
+            "ok": False,
+            "message": "API error",
+            "error": _extraire_erreur(err),
+        }
+
 # =========================================================
 # TOOLS ENREGISTRÉS
 # =========================================================
@@ -201,6 +240,8 @@ TOOLS = [
     "filterArticlesByPriceRange",
     "searchArticles",
     "getArticleRuptureStock",
+    "createArticle"
+
 ]
 
 print("\n📌 Tools Articles enregistrés :")

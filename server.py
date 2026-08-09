@@ -1,11 +1,12 @@
 import asyncio
 from fastmcp import FastMCP
-from tools import articles_tools, analyse_clients_tools, analyse_reglements_tools
+from tools import articles_tools, analyse_clients_tools, analyse_reglements_tools,clients_tools
 
 mcp_server = FastMCP("Facturation Server")
 mcp_server.mount(articles_tools.mcp)  # ou mcp_server.import_server(articles.mcp) selon ta version de fastmcp
 mcp_server.mount(analyse_clients_tools.mcp)
 mcp_server.mount(analyse_reglements_tools.mcp)
+mcp_server.mount(clients_tools.mcp)
 
 async def main():
     # Lancer le serveur (bloquant)
