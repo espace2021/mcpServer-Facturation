@@ -204,7 +204,7 @@ def create_article(
     designation: str,
     prix_achat: float,
     prix_vente: float,
-    categorie: str | None = None,
+    categorie: str = None,
     stock: int = 0,
 ) -> dict:
 

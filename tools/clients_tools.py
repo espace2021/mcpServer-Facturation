@@ -147,7 +147,7 @@ TOOLS = [
 
 ]
 
-print("\n📌 Tools Articles enregistrés :")
+print("\n📌 Tools Clients enregistrés :")
 
 for tool in TOOLS:
     print(f" • {tool}")
